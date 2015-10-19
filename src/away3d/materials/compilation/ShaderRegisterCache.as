@@ -1,11 +1,36 @@
 package away3d.materials.compilation
 {
+	import away3d.core.managers.AGALProgram3DCache;
 	
 	/**
 	 * ShaderRegister Cache provides the usage management system for all registers during shading compilation.
 	 */
 	public class ShaderRegisterCache
 	{
+		/**
+		 * Limits for temporary register (vertex and fragment)
+		 */
+		private static const TEMP_LIMITS:Array = [
+			8,		// AGAL1
+			26		// AGAL2
+		];
+		
+		/**
+		 * Limits for fragment constants
+		 */
+		private static const FRAG_CONSTANTS_LIMITS:Array = [
+			28,		// AGAL1
+			64		// AGAL2
+		];
+		
+		/**
+		 * Limits for vertex constants
+		 */
+		private static const VERT_CONSTANTS_LIMITS:Array = [
+			128,	// AGAL1
+			250		// AGAL2
+		];
+		
 		private var _fragmentTempCache:RegisterPool;
 		private var _vertexTempCache:RegisterPool;
 		private var _varyingCache:RegisterPool;
@@ -42,13 +67,13 @@ package away3d.materials.compilation
 		 */
 		public function reset():void
 		{
-			_fragmentTempCache = new RegisterPool("ft", 8, false);
-			_vertexTempCache = new RegisterPool("vt", 8, false);
-			_varyingCache = new RegisterPool("v", 8);
-			_textureCache = new RegisterPool("fs", 8);
-			_vertexAttributesCache = new RegisterPool("va", 8);
-			_fragmentConstantsCache = new RegisterPool("fc", 28);
-			_vertexConstantsCache = new RegisterPool("vc", 128);
+			_fragmentTempCache = new RegisterPool("ft", TEMP_LIMITS[AGALProgram3DCache.AGAL_VERSION-1], false);
+			_vertexTempCache = new RegisterPool("vt", TEMP_LIMITS[AGALProgram3DCache.AGAL_VERSION-1], false);
+			_varyingCache = new RegisterPool("v", 8); // 8 also in Standard Constrained - 10 in Standard
+			_textureCache = new RegisterPool("fs", 8); // 8 also in Standard Constrained - 16 in Standard
+			_vertexAttributesCache = new RegisterPool("va", 8); // 16 in AGAL3 Support
+			_fragmentConstantsCache = new RegisterPool("fc", FRAG_CONSTANTS_LIMITS[AGALProgram3DCache.AGAL_VERSION-1]);
+			_vertexConstantsCache = new RegisterPool("vc", VERT_CONSTANTS_LIMITS[AGALProgram3DCache.AGAL_VERSION-1]);
 			_fragmentOutputRegister = new ShaderRegisterElement("oc", -1);
 			_vertexOutputRegister = new ShaderRegisterElement("op", -1);
 			_numUsedVertexConstants = 0;
@@ -65,7 +90,6 @@ package away3d.materials.compilation
 				getFreeVarying();
 			for (i = 0; i < _fragmentConstantOffset; ++i)
 				getFreeFragmentConstant();
-		
 		}
 
 		/**

@@ -1,5 +1,6 @@
 package away3d.core.render
 {
+	import away3d.core.managers.AGALProgram3DCache;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.debug.Debug;
 	import away3d.textures.Texture2DBase;
@@ -115,8 +116,8 @@ package away3d.core.render
 			_program3d = context.createProgram();
 			_indexBuffer = context.createIndexBuffer(6);
 			_indexBuffer.uploadFromVector(Vector.<uint>([2, 1, 0, 3, 2, 0]), 0, 6);
-			_program3d.upload(new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.VERTEX, getVertexCode()),
-				new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.FRAGMENT, getFragmentCode())
+			_program3d.upload(new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.VERTEX, getVertexCode(), AGALProgram3DCache.AGAL_VERSION),
+				new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.FRAGMENT, getFragmentCode(), AGALProgram3DCache.AGAL_VERSION)
 				);
 			
 			var w:Number = 2;

@@ -242,3 +242,7 @@
 - Fix for play method on animators to restart stopped animations when playing the same state
 - Fix to duration property for non-looping animations
 - Updates to AWD and 3DS parser to allow class instance reuse on multiple assets.
+
+4.1.6_AGAL2
+- Updated AGALMiniAssembler version to support agal v2
+- Support for multiple Stage3D Profiles (not only baseline)

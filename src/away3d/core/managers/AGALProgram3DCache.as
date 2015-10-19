@@ -15,6 +15,11 @@ package away3d.core.managers
 	
 	public class AGALProgram3DCache
 	{
+		/**
+		 * allow dynamic switching for AGALMiniAssembler version support
+		 */
+		public static var AGAL_VERSION:int = 1;
+		
 		private static var _instances:Vector.<AGALProgram3DCache>;
 		
 		private var _stage3DProxy:Stage3DProxy;
@@ -95,8 +100,8 @@ package away3d.core.managers
 				++_currentId;
 				program = _stage3DProxy._context3D.createProgram();
 				
-				var vertexByteCode:ByteArray = new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.VERTEX, vertexCode);
-				var fragmentByteCode:ByteArray = new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.FRAGMENT, fragmentCode);
+				var vertexByteCode:ByteArray = new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.VERTEX, vertexCode, AGAL_VERSION);
+				var fragmentByteCode:ByteArray = new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.FRAGMENT, fragmentCode, AGAL_VERSION);
 				
 				program.upload(vertexByteCode, fragmentByteCode);
 				

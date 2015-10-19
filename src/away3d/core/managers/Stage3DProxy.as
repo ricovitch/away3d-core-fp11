@@ -38,6 +38,7 @@ package away3d.core.managers
 		arcane var _stage3DIndex:int = -1;
 		
 		private var _usesSoftwareRendering:Boolean;
+		private var _supportsAgalv2:Boolean;
 		private var _profile:String;
 		private var _stage3D:Stage3D;
 		private var _activeProgram3D:Program3D;
@@ -520,7 +521,10 @@ package away3d.core.managers
 				_context3D = _stage3D.context3D;
 				_context3D.enableErrorChecking = Debug.active;
 				
-				_usesSoftwareRendering = (_context3D.driverInfo.indexOf('Software') == 0);
+				var driverInfo:String = _context3D.driverInfo.toLowerCase();
+				_usesSoftwareRendering = (driverInfo.indexOf('software') >= 0);
+				_supportsAgalv2 = (driverInfo.indexOf('standard') >= 0);
+				if (_supportsAgalv2) AGALProgram3DCache.AGAL_VERSION = 2;
 
 				// Only configure back buffer if width and height have been set,
 				// which they may not have been if View3D.render() has yet to be

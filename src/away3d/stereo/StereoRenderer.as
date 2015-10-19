@@ -1,5 +1,6 @@
 package away3d.stereo
 {
+	import away3d.core.managers.AGALProgram3DCache;
 	import away3d.core.managers.RTTBufferManager;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.debug.Debug;
@@ -135,8 +136,8 @@ package away3d.stereo
 				assembler = new AGALMiniAssembler(Debug.active);
 				
 				_program3D = stage3DProxy.context3D.createProgram();
-				_program3D.upload(assembler.assemble(Context3DProgramType.VERTEX, vertexCode),
-					assembler.assemble(Context3DProgramType.FRAGMENT, fragmentCode));
+				_program3D.upload(assembler.assemble(Context3DProgramType.VERTEX, vertexCode, AGALProgram3DCache.AGAL_VERSION),
+					assembler.assemble(Context3DProgramType.FRAGMENT, fragmentCode, AGALProgram3DCache.AGAL_VERSION));
 				
 				_program3DInvalid = false;
 			}

@@ -3,6 +3,7 @@
 package away3d.filters.tasks
 {
 	import away3d.cameras.Camera3D;
+	import away3d.core.managers.AGALProgram3DCache;
 	import away3d.core.managers.Stage3DProxy;
 	import away3d.debug.Debug;
 	import away3d.errors.AbstractMethodError;
@@ -12,10 +13,8 @@ package away3d.filters.tasks
 	import flash.display3D.Context3D;
 
 	import flash.display3D.Context3DProgramType;
-	
 	import flash.display3D.Context3DTextureFormat;
 	import flash.display3D.Program3D;
-	
 	import flash.display3D.textures.Texture;
 	
 	public class Filter3DTaskBase
@@ -129,8 +128,8 @@ package away3d.filters.tasks
 				_program3D.dispose();
 			_program3DContext = stage.context3D;
 			_program3D = _program3DContext.createProgram();
-			_program3D.upload(new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.VERTEX, getVertexCode()),
-				new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.FRAGMENT, getFragmentCode()));
+			_program3D.upload(new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.VERTEX, getVertexCode(), AGALProgram3DCache.AGAL_VERSION),
+				new AGALMiniAssembler(Debug.active).assemble(Context3DProgramType.FRAGMENT, getFragmentCode(), AGALProgram3DCache.AGAL_VERSION));
 			_program3DInvalid = false;
 		}
 		
